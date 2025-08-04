@@ -73,50 +73,59 @@ function calculateTotal() {
 
 // --- FIREBASE FUNCTIONS ---
 async function loadFirestoreData(dateKey) {
-  const docRef = doc(db, "timeData", dateKey);
-  const docSnap = await getDoc(docRef);
+  showLoading(true); // Show spinner and disable input
 
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    for (let key in periodFields) {
-      periodFields[key].value = data[key] || "00:00:00";
-    }
-    totalField.value = data.total || "00:00:00";
+  try {
+    const docRef = doc(db, "timeData", dateKey);
+    const docSnap = await getDoc(docRef);
 
-    if (dateKey === currentDate) {
-      isRunning = data.isRunning || false;
-      startTime = data.startTime || null;
-      elapsedTime = data.elapsedTime || 0;
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      for (let key in periodFields) {
+        periodFields[key].value = data[key] || "00:00:00";
+      }
+      totalField.value = data.total || "00:00:00";
 
-      if (isRunning && startTime) {
-        const now = Date.now();
-        elapsedTime += now - startTime;
-        startTime = now;
-        startStopwatch();
+      if (dateKey === currentDate) {
+        isRunning = data.isRunning || false;
+        startTime = data.startTime || null;
+        elapsedTime = data.elapsedTime || 0;
+
+        if (isRunning && startTime) {
+          const now = Date.now();
+          elapsedTime += now - startTime;
+          startTime = now;
+          startStopwatch();
+        } else {
+          updateStopwatchDisplay(elapsedTime);
+        }
       } else {
-        updateStopwatchDisplay(elapsedTime);
+        isRunning = false;
+        clearInterval(timerInterval);
+        updateStopwatchDisplay(0);
       }
     } else {
+      for (let key in periodFields) {
+        periodFields[key].value = "00:00:00";
+      }
+      totalField.value = "00:00:00";
       isRunning = false;
+      startTime = null;
+      elapsedTime = 0;
       clearInterval(timerInterval);
       updateStopwatchDisplay(0);
     }
-  } else {
-    for (let key in periodFields) {
-      periodFields[key].value = "00:00:00";
-    }
-    totalField.value = "00:00:00";
-    isRunning = false;
-    startTime = null;
-    elapsedTime = 0;
-    clearInterval(timerInterval);
-    updateStopwatchDisplay(0);
-  }
 
-  viewingDate = dateKey;
- const [year, month, day] = dateKey.split("-");
-dateInput.value = `${day}/${month}/${year}`;
+    viewingDate = dateKey;
+    const [year, month, day] = dateKey.split("-");
+    dateInput.value = `${day}/${month}/${year}`;
+  } catch (error) {
+    console.error("Error loading Firestore data:", error);
+  } finally {
+    hideLoading(); // Hide spinner and enable input
+  }
 }
+
 
 async function saveFirestoreData() {
   if (viewingDate !== currentDate) return;
@@ -202,3 +211,26 @@ function init() {
 
 // Start when DOM is loaded
 window.addEventListener("DOMContentLoaded", init);
+function showLoading(disableUI = true) {
+  document.body.style.pointerEvents = disableUI ? "none" : "";
+  document.body.style.opacity = disableUI ? 0.5 : "";
+  if (!document.getElementById("loadingSpinner")) {
+    const spinner = document.createElement("div");
+    spinner.id = "loadingSpinner";
+    spinner.style.position = "fixed";
+    spinner.style.top = "50%";
+    spinner.style.left = "50%";
+    spinner.style.transform = "translate(-50%, -50%)";
+    spinner.style.zIndex = 9999;
+    spinner.innerHTML = `<div class="spinner"></div>`;
+    document.body.appendChild(spinner);
+  }
+}
+
+function hideLoading() {
+  document.body.style.pointerEvents = "";
+  document.body.style.opacity = "";
+  const spinner = document.getElementById("loadingSpinner");
+  if (spinner) spinner.remove();
+}
+

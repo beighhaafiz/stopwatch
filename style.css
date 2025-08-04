@@ -1,0 +1,54 @@
+/* Center the whole layout */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+/* Main white box */
+.container {
+  background-color: #ffffff;
+  padding: 30px;
+  margin-top: 50px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+}
+
+/* Button layout */
+.button-row button {
+  margin: 5px;
+  padding: 10px 20px;
+}
+
+/* Save section */
+.save-section {
+  margin-top: 20px;
+}
+
+.save-section input {
+  display: block;
+  margin: 5px auto;
+  padding: 8px;
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+#saveBtn {
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+#totalDisplay {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}

@@ -114,7 +114,8 @@ async function loadFirestoreData(dateKey) {
   }
 
   viewingDate = dateKey;
-  dateInput.value = dateKey;
+  const [year, month, day] = dateKey.split("-");
+dateInput.value = `${day}/${month}/${year}`;
 }
 
 async function saveFirestoreData() {

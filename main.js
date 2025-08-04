@@ -198,13 +198,6 @@ function init() {
   loadFirestoreData(currentDate);
   historyInput.value = currentDate;
 }
-// ✅ Register the Service Worker (PWA support)
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("service-worker.js")
-    .then(() => console.log("✅ Service Worker Registered"))
-    .catch((err) => console.error("❌ Service Worker Error", err));
-}
 
 // Start when DOM is loaded
 window.addEventListener("DOMContentLoaded", init);

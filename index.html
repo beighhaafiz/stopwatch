@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Time Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      padding: 20px;
+      background-color: #111;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #f0f0f0;
+    }
+
+    #date-container,
+    #stopwatch-container,
+    #time-fields {
+      margin-top: 20px;
+    }
+
+    #stopwatch {
+      font-size: 2em;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #0f0;
+    }
+
+    button, select, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      font-size: 1em;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 4px;
+    }
+
+    label {
+      margin-top: 10px;
+      display: block;
+      color: #ccc;
+    }
+
+    input[readonly] {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Time Tracker</h1>
+
+    <div id="date-container">
+      <label for="date">Date:</label>
+      <input type="text" id="date" readonly />
+    </div>
+
+    <div id="stopwatch-container">
+      <div id="stopwatch">00:00:00</div>
+      <button id="startBtn">Start</button>
+      <button id="stopBtn">Stop</button>
+      <button id="resetBtn">Reset</button>
+
+      <select id="periodSelect">
+        <option value="p1">P1</option>
+        <option value="p2">P2</option>
+        <option value="p3">P3</option>
+        <option value="p4">P4</option>
+        <option value="p5">P5</option>
+      </select>
+      <button id="saveBtn">Save</button>
+    </div>
+
+    <div id="time-fields">
+      <label for="p1">P1:</label>
+      <input type="text" id="p1" readonly />
+
+      <label for="p2">P2:</label>
+      <input type="text" id="p2" readonly />
+
+      <label for="p3">P3:</label>
+      <input type="text" id="p3" readonly />
+
+      <label for="p4">P4:</label>
+      <input type="text" id="p4" readonly />
+
+      <label for="p5">P5:</label>
+      <input type="text" id="p5" readonly />
+
+      <label for="total">Total:</label>
+      <input type="text" id="total" readonly />
+    </div>
+
+    <div id="history-container">
+      <label for="historyDate">View History:</label>
+      <input type="date" id="historyDate" />
+      <button id="loadHistoryBtn">Load</button>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
